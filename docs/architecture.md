@@ -7,7 +7,7 @@ Browser ──:80──► frontend (nginx + React build) ──/api, /ws, /heal
 Browser ──:8080─► Kafka UI ─────────────────────────────────────────► kafka (KRaft, topic orders P0-P2)
                                                                           │ consume
                                                                           ▼
-                                       backend ◄── POST /internal/events ── consumer (order-processing-group)
+                                       backend ◄── POST /internal/events ── 9 consumers (3 groups x 3)
 ```
 
 ## Services (one shared Compose network)
@@ -18,7 +18,7 @@ Browser ──:8080─► Kafka UI ───────────────
 | kafka-init | `apache/kafka:3.8.0` | none | One-shot: runs `kafka/init-topic.sh`, creates `orders` (3 partitions, RF 1) |
 | kafka-ui | `provectuslabs/kafka-ui:v0.7.2` | 8080 | Inspect brokers, topics, messages, groups, lag |
 | backend | `./backend` (FastAPI) | none | REST + WebSocket, Kafka producer |
-| consumer | `./consumer` | none | Group `order-processing-group`, scalable |
+| order/payment/notification-consumer-1..3 | `./consumer` (one image) | none | 9 consumers, 3 per group; `CONSUMER_ROLE` picks the group |
 | frontend | `./frontend` (Vite build → nginx) | 80 | UI, reverse proxy to backend |
 
 ## Order flow
@@ -26,8 +26,8 @@ Browser ──:8080─► Kafka UI ───────────────
 1. The browser sends `POST /api/orders`. nginx forwards it to the backend.
 2. The backend validates, prices from its own catalog, generates `ORD-XXXXXXXX`, and publishes with the order ID as key. It waits for the broker ack (`acks=all`, idempotent producer).
 3. The response returns order ID, `PUBLISHED`, partition and offset. The UI shows it at once.
-4. The consumer reads the message, processes it, reports to `POST /internal/events` (header `X-Internal-Token`), then commits the offset (at-least-once).
-5. The backend updates the order to `PROCESSED` and pushes the update to every browser over `/ws`.
+4. Each of the 3 groups reads every message. The consumer that owns the partition processes it, reports to `POST /internal/events` (header `X-Internal-Token`), then commits the offset (at-least-once).
+5. The backend updates that group's status (`PROCESSED`, `PAYMENT_CONFIRMED` or `NOTIFICATION_SENT`) and pushes the update to every browser over `/ws`.
 
 ## Design notes
 

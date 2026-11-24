@@ -7,7 +7,6 @@ const GROUPS = [
 ];
 const PARTITIONS = [0, 1, 2];
 
-// Partition -> consumer table for each group, read from Kafka by the backend every 3 s.
 function Assignments({ assignments }) {
     return (
         <section className="card">

@@ -53,9 +53,8 @@ nav a:hover {
 }
 
 main {
-    max-width: 1100px;
-    margin: 24px auto;
-    padding: 0 20px;
+    margin: 20px 0;
+    padding: 0 24px;
 }
 
 h2 {
@@ -69,12 +68,17 @@ h2 {
     border-radius: 12px;
     padding: 20px;
     margin-bottom: 20px;
-    overflow-x: auto;
+}
+
+.hint {
+    color: var(--muted);
+    font-size: 13px;
+    margin: -6px 0 12px;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 16px;
 }
 
@@ -139,6 +143,12 @@ input[type=text] {
     color: var(--text);
 }
 
+.field-err {
+    color: #fca5a5;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
 .row {
     display: flex;
     align-items: flex-end;
@@ -175,14 +185,13 @@ input[type=text] {
     font-size: 14px;
 }
 
-.msg.ok {
-    background: #14532d55;
-    border: 1px solid var(--ok);
-}
-
 .msg.err {
     background: #7f1d1d55;
     border: 1px solid var(--bad);
+}
+
+.table-wrap {
+    overflow-x: auto;
 }
 
 table {
@@ -194,9 +203,8 @@ table {
 th,
 td {
     text-align: left;
-    padding: 9px 8px;
+    padding: 9px 10px;
     border-bottom: 1px solid var(--line);
-    white-space: nowrap;
 }
 
 th {
@@ -204,11 +212,30 @@ th {
     font-weight: 500;
 }
 
+.empty {
+    color: var(--muted);
+    text-align: center;
+    padding: 20px;
+}
+
+.by {
+    color: var(--muted);
+    font-size: 11px;
+    margin-top: 3px;
+}
+
 .badge {
+    display: inline-block;
+    white-space: nowrap;
     padding: 2px 8px;
     border-radius: 999px;
     font-size: 12px;
     font-weight: 600;
+}
+
+.b-PENDING {
+    background: #334155;
+    color: #cbd5e1;
 }
 
 .b-PUBLISHING {
@@ -222,10 +249,19 @@ th {
     color: #bfdbfe;
 }
 
-.b-PROCESSED,
-.b-ORDER_PROCESSED {
+.b-PROCESSED {
     background: #14532d;
     color: #bbf7d0;
+}
+
+.b-PAYMENT_CONFIRMED {
+    background: #4c1d95;
+    color: #ddd6fe;
+}
+
+.b-NOTIFICATION_SENT {
+    background: #134e4a;
+    color: #99f6e4;
 }
 
 .b-FAILED,
@@ -250,63 +286,6 @@ th {
 
 .dot.on {
     background: var(--ok);
-}
-
-.empty {
-    color: var(--muted);
-    text-align: center;
-    padding: 20px;
-}
-
-select {
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid var(--line);
-    background: var(--bg);
-    color: var(--text);
-    min-width: 180px;
-}
-
-.actions {
-    display: flex;
-    gap: 10px;
-}
-
-.btn.secondary {
-    background: transparent;
-    border: 1px solid var(--accent);
-    color: #c7d2fe;
-}
-
-.msg+.msg {
-    margin-top: 6px;
-}
-
-.hint {
-    color: var(--muted);
-    font-size: 13px;
-    margin: -6px 0 12px;
-}
-
-.by {
-    color: var(--muted);
-    font-size: 11px;
-    margin-top: 3px;
-}
-
-.b-PENDING {
-    background: #334155;
-    color: #cbd5e1;
-}
-
-.b-PAYMENT_CONFIRMED {
-    background: #4c1d95;
-    color: #ddd6fe;
-}
-
-.b-NOTIFICATION_SENT {
-    background: #134e4a;
-    color: #99f6e4;
 }
 
 .groups {
@@ -351,44 +330,4 @@ select {
 .muted {
     color: var(--muted);
     font-style: italic;
-}
-
-/* Full-width layout: use the whole screen and let tables fit instead of scrolling sideways. */
-main {
-    max-width: none;
-    margin: 20px 0;
-    padding: 0 24px;
-}
-
-.card {
-    overflow-x: visible;
-}
-
-.table-wrap {
-    overflow-x: auto;
-}
-
-table {
-    table-layout: auto;
-}
-
-th,
-td {
-    white-space: normal;
-    padding: 9px 10px;
-}
-
-td .badge {
-    white-space: nowrap;
-    display: inline-block;
-}
-
-.grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
-
-.field-err {
-    color: #fca5a5;
-    font-size: 12px;
-    margin-top: 4px;
 }

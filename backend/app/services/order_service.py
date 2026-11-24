@@ -50,7 +50,7 @@ def _new_order(order_id, customer, product, amount, created) -> dict:
         "order_id": order_id, "customer_name": customer, "product": product, "amount": amount,
         "status": "PUBLISHING", "payment_status": "PENDING", "notification_status": "PENDING",
         "created_at": created, "partition": None, "offset": None,
-        "processed_by": {},  # group -> consumer name
+        "processed_by": {},
     }
 
 
@@ -127,7 +127,7 @@ async def place_order(req: OrderRequest) -> dict:
 
 async def mark_processed(ev: ProcessedEvent):
     order = orders.get(ev.order_id)
-    if order is None:  # e.g. replayed message from before a backend restart
+    if order is None:
         order = _new_order(ev.order_id, ev.customer_name, ev.product, ev.amount, now())
         order.update(status="PUBLISHED", partition=ev.partition, offset=ev.offset)
         _remember(order)
@@ -146,6 +146,6 @@ async def watch_assignments(interval: float = 3.0):
             if latest != assignments:
                 assignments = latest
                 await broadcast({"type": "assignments", "assignments": list_assignments()})
-        except Exception as exc:  # broker briefly unavailable; try again next round
+        except Exception as exc:
             print(f"[WARN] assignment poll failed: {exc}", flush=True)
         await asyncio.sleep(interval)

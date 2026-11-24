@@ -34,18 +34,6 @@ async def recent_orders(limit: int = 20):
     return svc.list_orders(max(1, min(limit, settings.max_orders)))
 
 
-@router.get("/api/events")
-async def recent_events(limit: int = 50):
-    return svc.list_events(max(1, min(limit, settings.max_events)))
-
-
-@router.get("/api/assignments")
-async def assignments():
-    """Which consumer in each group owns which partition (read from Kafka every 3 s)."""
-    return svc.list_assignments()
-
-
-# Consumer -> backend. nginx does not proxy /internal/*, and a shared token is required.
 @router.post("/internal/events")
 async def processed(ev: ProcessedEvent, x_internal_token: str = Header(default="")):
     _check_token(x_internal_token)
@@ -65,7 +53,7 @@ async def ws_endpoint(ws: WebSocket):
             "assignments": svc.list_assignments(),
         })
         while True:
-            await ws.receive_text()  # keep-alive; client messages are ignored
+            await ws.receive_text()
     except WebSocketDisconnect:
         pass
     finally:

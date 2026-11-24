@@ -6,7 +6,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import { useLiveFeed } from "./services/api.js";
 
 export default function App() {
-    const feed = useLiveFeed(); // one WebSocket shared by all pages
+    const feed = useLiveFeed();
     return (
         <>
             <Navbar connected={feed.connected} />

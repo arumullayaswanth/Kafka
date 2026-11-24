@@ -14,7 +14,7 @@ class Settings:
 settings = Settings(
     kafka_bootstrap=os.getenv("KAFKA_BOOTSTRAP_SERVERS", "kafka:9092"),
     topic=os.getenv("TOPIC_NAME", "orders"),
-    internal_token=os.environ["INTERNAL_API_TOKEN"],  # required, no default
+    internal_token=os.environ["INTERNAL_API_TOKEN"],
 )
 
 # Server-side catalog: prices are never taken from the client.

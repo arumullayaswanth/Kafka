@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard.jsx";
 import { getProducts, money, placeOrder } from "../services/api.js";
 
-const NAME_OK = /^[A-Za-z0-9 .'_-]+$/; // same rule as the backend
+const NAME_OK = /^[A-Za-z0-9 .'_-]+$/;
 
 export default function OrderForm() {
     const [products, setProducts] = useState([]);
@@ -28,7 +28,7 @@ export default function OrderForm() {
         setError("");
         try {
             await placeOrder(trimmed, items);
-            setQty({}); // keep the name so the same person can order again
+            setQty({});
         } catch (e) {
             setError("Order rejected: " + e.message);
         } finally {

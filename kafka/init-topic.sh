@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# Runs once in the kafka-init container: creates the orders topic (idempotent).
 set -euo pipefail
 TOPIC="${TOPIC_NAME:-orders}"
 KT=/opt/kafka/bin/kafka-topics.sh

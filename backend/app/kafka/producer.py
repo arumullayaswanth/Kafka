@@ -8,7 +8,6 @@ from app.config import settings
 
 
 class KafkaPublisher:
-    """Thin wrapper around confluent_kafka.Producer with a blocking publish()."""
 
     def __init__(self):
         self._producer: Optional[Producer] = None
@@ -31,14 +30,12 @@ class KafkaPublisher:
 
     def _poll_loop(self):
         while not self._stop.is_set():
-            self._producer.poll(0.2)  # serves delivery callbacks
+            self._producer.poll(0.2)
 
     def check(self, timeout: float = 3):
-        """Raises if the broker or topic is unreachable."""
         self._producer.list_topics(settings.topic, timeout)
 
     def publish(self, key: str, payload: dict) -> dict:
-        """Blocking. Returns {partition, offset} or {error}. Call from a worker thread."""
         done = threading.Event()
         result: dict = {}
 

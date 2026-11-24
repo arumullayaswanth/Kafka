@@ -73,7 +73,6 @@ for g in $GROUPS_LIST; do
   echo "  --- $g"
   out=$(kafka kafka-consumer-groups.sh --bootstrap-server kafka:9092 --describe --group "$g" --members --verbose)
   echo "$out" | sed 's/^/  /'
-  # Member rows start with the group name; column 5 is #PARTITIONS.
   members=$(echo "$out" | awk -v g="$g" '$1 == g && $5 == 1' | wc -l | tr -d ' ')
   [ "$members" = "3" ] || { echo "  expected 3 members owning 1 partition each in $g, got $members"; exit 1; }
 done

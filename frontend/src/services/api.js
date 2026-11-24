@@ -23,7 +23,6 @@ export async function placeOrder(customer_name, items) {
     return data;
 }
 
-// Live feed over WebSocket (auto-reconnect). Returns recent orders, events and connection state.
 export function useLiveFeed() {
     const [orders, setOrders] = useState([]);
     const [events, setEvents] = useState([]);
@@ -51,7 +50,6 @@ export function useLiveFeed() {
                     setEvents(m.events);
                     setAssignments(m.assignments || {});
                 } else if (m.type === "update") {
-                    // Keep the order's position in the list; only new orders go to the top.
                     setOrders((prev) =>
                         prev.some((o) => o.order_id === m.order.order_id)
                             ? prev.map((o) => (o.order_id === m.order.order_id ? m.order : o))

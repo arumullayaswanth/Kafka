@@ -13,8 +13,6 @@ def _client() -> AdminClient:
 
 
 def describe_assignments() -> dict:
-    """Ask Kafka which member of each consumer group owns which partition.
-    Returns {group: {client_id: [partitions]}}. Blocking; call from a worker thread."""
     futures = _client().describe_consumer_groups(CONSUMER_GROUPS, request_timeout=5)
     result = {}
     for group, future in futures.items():

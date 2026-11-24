@@ -1,6 +1,5 @@
 import { dash, money } from "../services/api.js";
 
-// Short labels keep the table within the screen; the full Kafka status is in the tooltip.
 const LABEL = {
     PROCESSED: "Processed",
     PAYMENT_CONFIRMED: "Paid",

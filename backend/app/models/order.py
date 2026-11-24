@@ -16,7 +16,6 @@ class OrderRequest(BaseModel):
 
 
 class ProcessedEvent(BaseModel):
-    """Sent by a consumer after it handled an order."""
     order_id: str = Field(min_length=1, max_length=64)
     partition: int = Field(ge=0)
     offset: int = Field(ge=0)
