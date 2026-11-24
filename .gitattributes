@@ -1,0 +1,5 @@
+# Shell scripts and configs run inside Linux containers / on EC2: always LF.
+*.sh          text eol=lf
+*.properties  text eol=lf
+Dockerfile    text eol=lf
+nginx.conf    text eol=lf
