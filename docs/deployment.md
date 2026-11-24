@@ -86,7 +86,7 @@ docker compose ps
 
 ```bash
 # images built or downloaded for this project
-docker images | grep -E "kafka-ecommerce|apache/kafka|kafka-ui|nginx|python|node"
+docker images 
 
 # all running containers, with name, status and ports
 docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
@@ -110,36 +110,6 @@ docker volume ls | grep kafka-ecommerce
 
 # disk space used by images, containers and volumes
 docker system df
-```
-
-**Look inside Kafka**
-
-```bash
-# list topics (you should see: orders)
-docker compose exec kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --list
-
-# show the orders topic: 3 partitions, leader, replicas
-docker compose exec kafka /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --describe --topic orders
-
-# list consumer groups (you should see 3)
-docker compose exec kafka /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server kafka:9092 --list
-
-# offsets and lag for one group
-docker compose exec kafka /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server kafka:9092 --describe --group order-processing-group
-
-# which consumer owns which partition
-docker compose exec kafka /opt/kafka/bin/kafka-consumer-groups.sh --bootstrap-server kafka:9092 --describe --group order-processing-group --members --verbose
-
-# read the first 5 messages with key, partition and offset
-docker compose exec kafka /opt/kafka/bin/kafka-console-consumer.sh --bootstrap-server kafka:9092 --topic orders --from-beginning --max-messages 5 --property print.key=true --property print.partition=true --property print.offset=true
-```
-
-**Check the website from the server**
-
-```bash
-curl http://localhost/health
-curl http://localhost/api/products
-curl -I http://localhost:8080
 ```
 
 Now run the automatic test:
