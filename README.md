@@ -2,15 +2,19 @@
 
 Place an order in a React shop, publish it to Kafka, consume it, watch it update live, and inspect the same event in Kafka UI. Runs on one EC2 instance with Docker Compose.
 
+## Architecture
+
+![Kafka E-commerce Demo architecture](docs/images.png)
+
 ```
 kafka-ecommerce-demo/
 ├── docker-compose.yml   .env.example   .gitignore   README.md
 ├── frontend/   React (Vite) → nginx. components/, pages/, services/api.js
-├── backend/    FastAPI. routes/, services/, models/, kafka/producer.py, config.py
-├── consumer/   Python consumer, group order-processing-group
-├── kafka/      init-topic.sh, config/server.properties (reference)
+├── backend/    FastAPI. routes/, services/, models/, kafka/, config.py
+├── consumer/   Python consumer, 3 roles: order, payment, notification
+├── kafka/      init-topic.sh (creates the orders topic at startup)
 ├── scripts/    start.sh stop.sh logs.sh health-check.sh test-kafka.sh
-└── docs/       architecture.md deployment.md troubleshooting.md
+└── docs/       images.png deployment.md troubleshooting.md
 ```
 
 ## Quick start
@@ -68,7 +72,6 @@ Customer 1..5 ─► Frontend ─► FastAPI (producer) ─► topic orders [P0 
 
 ## Documentation
 
-- [Architecture](docs/architecture.md)
 - [Deployment on EC2](docs/deployment.md)
 - [Troubleshooting](docs/troubleshooting.md)
 

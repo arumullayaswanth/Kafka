@@ -58,6 +58,7 @@ services:
       kafka:
         condition: service_healthy
     restart: "no"
+    # creates the orders topic.
     entrypoint: ["/bin/bash", "/init-topic.sh"]
     environment:
       TOPIC_NAME: ${TOPIC_NAME:-orders}
